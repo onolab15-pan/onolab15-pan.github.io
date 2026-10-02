@@ -26,7 +26,7 @@
   function render(){stopAudio();state.q=question(state.deck[state.index],state.mode,collection);state.filled=0;state.used=new Set();state.solved=false;const q=state.q;
     $('mode-label').textContent=state.mode==='ja'?'Listen to Japanese':'英語を聞く';$('progress').textContent=`${state.index+1} / ${state.deck.length} 問 · Questions`;
     // Do not set the photo URL or an answer-bearing alt until the answer is complete.
-    $('sushi-photo').hidden=true;$('sushi-photo').removeAttribute('src');$('sushi-photo').alt='';$('photo-blank').hidden=false;$('image-error').hidden=true;$('next').hidden=true;$('translation').replaceChildren();$('feedback').replaceChildren();
+    $('sushi-photo').hidden=true;$('sushi-photo').removeAttribute('src');$('sushi-photo').alt='';$('photo-blank').hidden=false;$('image-error').hidden=true;$('next').hidden=true;$('pass').hidden=false;$('translation').replaceChildren();$('feedback').replaceChildren();
     bilingual('instruction',state.mode==='ja'?'音を聞いて、日本語の名前を完成させよう':'音を聞いて、英語の名前を完成させよう',state.mode==='ja'?'Listen and build the Japanese name.':'Listen and build the English name.',state.mode==='ja'?'en':'ja');
     $('listen-label').textContent=state.mode==='ja'?'Listen again / もう一度聞く':'もう一度聞く / Listen again';draw();$('choices').replaceChildren();
     q.cards.forEach((char,i)=>{const b=document.createElement('button');b.className='card';b.textContent=char;b.setAttribute('aria-label',`${char} · カード ${i+1}`);b.addEventListener('click',()=>pick(char,i,b));$('choices').append(b);});
@@ -34,13 +34,15 @@
   function pick(char,i,button){if(state.solved||state.used.has(i))return;const q=state.q;if(char!==q.chars[q.holes[state.filled]]){bilingual('feedback','もう一度、音を聞いてみよう','Listen again and try another letter.');$('feedback').className='feedback error';button.classList.add('wrong');return;}
     state.used.add(i);button.disabled=true;button.classList.remove('wrong');button.classList.add('used');state.filled++;draw();$('feedback').className='feedback';
     if(state.filled<q.holes.length){$('feedback').replaceChildren();return;}
-    state.solved=true;state.score++;$('plate-count').textContent=String(state.score);const plate=document.createElement('span');plate.className='plate';$('plates').append(plate);
+    state.solved=true;$('pass').hidden=true;state.score++;$('plate-count').textContent=String(state.score);const plate=document.createElement('span');plate.className='plate';$('plates').append(plate);
     $('photo-blank').hidden=true;$('sushi-photo').alt=q.sushi.ja;$('sushi-photo').src=q.sushi.image;$('sushi-photo').hidden=false;
     bilingual('feedback','正解。寿司の写真が出ました。','Correct. Here is your sushi.');bilingual('translation',q.sushi.ja,q.sushi.en);
     for(const b of $('choices').children)b.disabled=true;$('next').textContent=state.index+1===state.deck.length?'できあがりを見る / Finish →':'次のひと皿 / Next →';$('next').hidden=false;$('next').focus({preventScroll:true});}
   $('listen').addEventListener('click',play);$('change-mode').addEventListener('click',menu);$('result-modes').addEventListener('click',menu);
   function menu(){stopAudio();show('menu');document.querySelector(`[data-mode="${state.mode}"]`).focus({preventScroll:true});}
-  $('next').addEventListener('click',()=>{if(!state.solved)return;stopAudio();state.index++;if(state.index<state.deck.length)render();else{show('result');$('result-title').textContent=`${state.score}皿、できあがり。`;$('result-copy').textContent=`${state.score} / ${state.deck.length} plates`;$('result-title').focus({preventScroll:true});}});
+  function advance(){stopAudio();state.index++;if(state.index<state.deck.length)render();else{show('result');$('result-title').textContent=`${state.score}皿、できあがり。`;$('result-copy').textContent=`${state.score} / ${state.deck.length} plates`;$('result-title').focus({preventScroll:true});}}
+  $('next').addEventListener('click',()=>{if(state.solved)advance();});
+  $('pass').addEventListener('click',()=>{if(!state.solved)advance();});
   $('again').addEventListener('click',()=>start(state.mode));$('sushi-photo').addEventListener('error',()=>{if(state.solved){$('sushi-photo').hidden=true;$('image-error').hidden=false;}});$('retry-image').addEventListener('click',()=>{if(state.solved){$('image-error').hidden=true;$('sushi-photo').hidden=false;$('sushi-photo').src=state.q.sushi.image;}});
   $('reload-audio').addEventListener('click',()=>location.reload());
   const ready=collection.length===40&&collection.every(s=>voices[s.id]?.ja&&voices[s.id]?.en);
