@@ -10,7 +10,7 @@
 <body>
 <header class="top"><a class="brand" href="./" aria-label="ONOLAB ホーム"><img class="brand-logo" src="logo.png" alt="">ONOLAB</a><nav aria-label="メイン"><a href="#play">PLAY</a><a href="#learn">LEARN</a><a href="#watch">WATCH</a><a href="mochi.html">MOCHI</a></nav></header>
 <main>
-<section class="hero"><div class="hero-copy"><p class="eyebrow">JAPANESE LANGUAGE, SOUNDS & CULTURE</p><h1>遊びから、<br>ことばの世界へ。</h1><p class="english">A little play.<br>A new way into Japanese.</p><p class="intro">音、ことば、食べもの、物語。<br>気になる入口から、ONOLABをのぞいてみてください。</p><a class="button" href="#doors">4つの入口へ <span aria-hidden="true">↓</span></a></div><div class="hero-art" aria-hidden="true"><span class="orbit orbit-a">あ</span><span class="orbit orbit-b">ぽん</span><span class="orbit orbit-c">わくわく</span><img class="hero-logo" src="logo.png" alt=""><p class="art-caption">PLAY WITH JAPANESE.</p></div></section>
+<section class="hero"><div class="hero-copy"><p class="eyebrow">JAPANESE LANGUAGE, SOUNDS & CULTURE</p><h1>遊びから、<br>ことばの世界へ。</h1><p class="english">A little play.<br>A new way into Japanese.</p><p class="intro">音、ことば、食べもの、物語。<br>気になる入口から、ONOLABをのぞいてみてください。</p><a class="button" href="#doors">4つの入口へ <span aria-hidden="true">↓</span></a></div><div class="hero-art has-video"><video class="hero-video" id="welcome-video" autoplay muted loop playsinline preload="metadata" poster="mochi-poster.jpg" aria-label="視聴者の声を聞くMOCHIのキャラクター"><source src="mochi-welcome.mp4" type="video/mp4"></video><div class="video-caption"><p>PLAY WITH JAPANESE.</p><button class="motion-toggle" id="motion-toggle" type="button" aria-controls="welcome-video">動画を一時停止</button></div></div></section>
 <section class="doors" id="doors" aria-label="ONOLABの4つの入口">
 <article class="door play" id="play"><div class="door-top"><span class="serial">01 / 遊ぶ</span><span class="status">40 CARDS</span></div><h2>PLAY<span>遊んで、覚える。</span></h2><a class="sushi-link" href="sushi.html"><img src="assets/sushi.jpg" alt="まぐろの握り寿司"><div><h3>Sushi Flip Cards</h3><p>写真を見て、名前を思い出す。<br>めくって答えを確認する寿司カード。</p><p class="small">40枚 · 日本語 / 英語の音声付き</p></div></a><a class="text-link" href="sushi.html">寿司フリップで遊ぶ <span aria-hidden="true">↗</span></a></article>
 <article class="door learn" id="learn"><div class="door-top"><span class="serial">02 / 学ぶ</span><span class="status">COMING SOON</span></div><h2>LEARN<span>音から、ことばへ。</span></h2><div class="sound" aria-hidden="true">あ <span>い</span> う <span>え</span> お</div><p>日本語の104音、オノマトペ、日本の食や観光。<br>見て、聞いて、楽しめる教材を準備しています。</p><p class="small">教材ページは順次公開予定です。</p></article>
@@ -19,4 +19,16 @@
 </section>
 </main>
 <footer><a class="brand" href="./"><img class="brand-logo" src="logo.png" alt="">ONOLAB</a><p>Japanese language, sounds & culture — learn through play.</p><span>© 2026 ONOLAB</span></footer>
+<script>
+const video = document.getElementById('welcome-video');
+const toggle = document.getElementById('motion-toggle');
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+function syncMotion() { toggle.textContent = video.paused ? '動画を再生' : '動画を一時停止'; }
+video.addEventListener('play', syncMotion);
+video.addEventListener('pause', syncMotion);
+toggle.addEventListener('click', () => { if (video.paused) video.play().catch(syncMotion); else video.pause(); });
+if (reducedMotion.matches) { video.removeAttribute('autoplay'); video.pause(); }
+reducedMotion.addEventListener('change', event => { if (event.matches) video.pause(); });
+syncMotion();
+</script>
 </body></html>
