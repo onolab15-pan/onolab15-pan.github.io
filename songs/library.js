@@ -12,7 +12,7 @@
   let count = 0;
   for (const song of songs) {
     const url = youtubeLink(song.youtubeUrl);
-    if (!song.title || !url) continue;
+    if (!song.title) continue;
     const card = template.content.cloneNode(true);
     const image = card.querySelector('img');
     const fallback = card.querySelector('.cover-fallback');
@@ -27,7 +27,10 @@
     english.textContent = song.titleEn || '';
     english.hidden = !song.titleEn;
     const link = card.querySelector('.youtube-link');
-    link.href = url;
+    card.querySelector('.song-description-ja').textContent = song.descriptionJa || '';
+    card.querySelector('.song-description-en').textContent = song.descriptionEn || '';
+    if (url) link.href = url;
+    else { link.hidden = true; card.querySelector('.song-pending').hidden = false; }
     link.setAttribute('aria-label', `${song.title} — YouTubeで聴く / Listen on YouTube（新しいタブで開きます）`);
     grid.append(card);
     count++;
