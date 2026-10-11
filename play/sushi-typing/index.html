@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ONOLAB Sushi Typing</title><meta name="description" content="Practice Japanese romaji and English typing with 40 kinds of sushi."><style>
+:root{font-family:system-ui,-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif;color:#243d35;background:#f7f5ee;font-synthesis:none}*{box-sizing:border-box}body{margin:0}button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #da843e;outline-offset:4px}[hidden]{display:none!important}main{width:min(1080px,100%);margin:auto;padding:28px clamp(16px,4vw,48px)}header{display:flex;align-items:center;justify-content:space-between;gap:16px}h1{font-size:clamp(20px,3vw,30px);margin:4px 0}.brand{font-size:12px;letter-spacing:.24em;color:#697b70}.plates{font-size:clamp(24px,4vw,38px);font-weight:750;white-space:nowrap}nav{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:28px 0 16px}button{border:1px solid #d4dbd3;border-radius:12px;padding:14px;background:#fff;color:#243d35;font-weight:650}nav button{font-size:clamp(13px,1.8vw,17px);line-height:1.6}button[aria-pressed=true],.primary{background:#245747;color:#fff;border-color:#245747}.stage{background:#fff;border:1px solid #e4e5dc;border-radius:24px;padding:24px clamp(12px,4vw,38px);text-align:center;min-height:470px}.topline{display:flex;justify-content:space-between;color:#68766b;font-size:15px}.question{font-size:clamp(52px,9vw,100px);line-height:1.3;font-weight:780;overflow-wrap:anywhere;margin:24px 0}.visual{height:220px;margin:16px auto 4px;max-width:400px}.visual img{max-width:100%;width:100%;height:100%;object-fit:contain;border-radius:16px}.visual svg{height:100%;width:100%}.photo-note{font-size:12px;color:#6d766b;min-height:16px;margin:0 0 8px}label.entry-label{display:block;font-size:14px;color:#637468;margin:10px 0}#entry{width:100%;font-size:clamp(36px,6vw,68px);font-weight:650;line-height:1.3;text-align:center;border:2px solid #b6c9bb;border-radius:14px;background:#f8fbf7;color:#245747;padding:12px 8px;letter-spacing:.02em}#entry:disabled{opacity:1;background:#edf7ef}#entry.wrong{border-color:#c75c44;background:#fff5f0}.answer{font-size:clamp(38px,6vw,70px);line-height:1.2;color:#245747;font-weight:780;margin:14px 0 8px;overflow-wrap:anywhere}.answer:empty{display:none}.feedback{min-height:24px;font-size:16px;margin:8px 0}.hint{font-size:clamp(20px,3vw,30px);overflow-wrap:anywhere;margin:12px}.actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:14px}.actions button{min-width:124px}footer{display:flex;justify-content:space-between;gap:16px;font-size:13px;color:#6c786d;margin:16px 2px;flex-wrap:wrap}details{font-size:14px;color:#57685d;margin-top:22px}details p{line-height:1.8}summary{cursor:pointer}#imagePattern{width:100%;padding:12px;border:1px solid #bac7bc;border-radius:8px;margin:8px 0}.settings-row{display:flex;gap:12px;align-items:center;margin:12px 0}code{background:#eeeee6;padding:2px 4px}@media(max-width:600px){main{padding-top:16px}nav{grid-template-columns:repeat(2,1fr);margin-top:18px}nav button{padding:10px}.stage{padding-top:18px;min-height:440px}.visual{height:190px}.topline{font-size:13px}.question{margin:30px 0}.plates{font-size:24px}header{align-items:flex-start}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style></head><body><main>
+<a href="../" style="display:inline-block;color:#245747;margin-bottom:16px;text-decoration:none;font-weight:650">← Back to PLAY</a><header><div><div class="brand">ONOLAB · PLAY & LEARN</div><h1>Sushi Typing</h1></div><div id="plates" class="plates" aria-live="polite" aria-label="Plates earned">🍽️ × 0</div></header>
+<nav aria-label="Practice mode"><button data-mode="hiragana" aria-pressed="true">Hiragana<br>→ Romaji</button><button data-mode="katakana" aria-pressed="false">Katakana<br>→ Romaji</button><button data-mode="photoJa" aria-pressed="false">Photo<br>→ Romaji</button><button data-mode="photoEn" aria-pressed="false">Photo<br>→ English</button></nav>
+<section class="stage" aria-label="Typing question"><div class="topline"><span id="instruction"></span><span id="progress"></span></div>
+<div id="question" class="question" lang="ja"></div><div id="visual" class="visual" hidden><img id="photo" alt="Sushi photo. Type its name." loading="lazy" decoding="async" hidden><div id="fallback" style="height:100%"></div></div><p id="photoNote" class="photo-note"></p>
+<label id="entryLabel" class="entry-label" for="entry">Type in English letters</label><input id="entry" type="text" inputmode="text" lang="en" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-describedby="feedback" placeholder="Type here" enterkeyhint="done">
+<div id="answer" class="answer" aria-live="polite"></div><p id="feedback" class="feedback" role="status"></p><p id="hint" class="hint" hidden></p>
+<div class="actions"><button id="showHint">Hint</button><button id="next" class="primary" hidden>Next →</button><button id="start">Restart</button></div></section>
+<footer><span>One plate per correct answer. 40 questions. No time limit.</span><span>Turn off your IME / Use English letters</span></footer>
+<details><summary>How to play &amp; image settings</summary><p>Choose a mode and type using English letters. Correct answers are recognized automatically. Read the answer, then select “Next” (or press Enter). Changing modes or selecting “Restart” resets your plate count. You can still earn a plate when using a hint.</p><p>Romaji accepts shi / si, chi / ti, tsu / tu, ji / zi, cha / tya, and other common spellings. For small っ, double the consonant or use xtu / ltu. For ん, use n / nn / n' (before a vowel or y sound, use nn / n'). For ー, repeat the vowel or use - (for example, saamon / sa-mon). English answers are case-insensitive; spaces and hyphens are treated the same.</p><div class="settings-row"><label><input id="shuffle" type="checkbox" checked> Shuffle questions (from the next restart)</label></div><p>This game shares the 40 photos used by Sushi Word Cards. To use other photos without text, set their path below. <code>{id}</code> is replaced with 01–40. Example: <code>../sushi-words/images/sushi-{id}.jpg</code>. Only the current question’s photo is loaded. This setting lasts until you close the page.</p><label for="imagePattern">Image path</label><input id="imagePattern" value="../sushi-words/images/sushi-{id}.jpg"><button id="applyImages">Apply image settings</button><p>If a photo is unavailable, a generic illustration and a hint are shown. The illustration does not depict the specific sushi variety.</p></details>
+</main><script>
+const DEFAULT_CARDS = [{"id": "01", "photo": "assets/sushi-01.jpg", "nameEn": "Tuna-lean cut", "sourceNameJa": "まぐろ（あかみ）", "kana": "まぐろ", "english": "lean tuna", "englishAliases": ["tuna", "tuna lean cut", "lean cut tuna"]}, {"id": "02", "photo": "assets/sushi-02.jpg", "nameEn": "Medium Fatty Tuna", "sourceNameJa": "ちゅうとろ", "kana": "ちゅうとろ", "english": "medium fatty tuna"}, {"id": "03", "photo": "assets/sushi-03.jpg", "nameEn": "Fatty Tuna (Otoro)", "sourceNameJa": "おおとろ", "kana": "おおとろ", "english": "fatty tuna", "englishAliases": ["otoro"]}, {"id": "04", "photo": "assets/sushi-04.jpg", "nameEn": "Salmon", "sourceNameJa": "さーもん", "kana": "さーもん", "english": "salmon"}, {"id": "05", "photo": "assets/sushi-05.jpg", "nameEn": "Yellowtail", "sourceNameJa": "ぶり", "kana": "ぶり", "english": "yellowtail"}, {"id": "06", "photo": "assets/sushi-06.jpg", "nameEn": "Young Yellowtail (Hamachi)", "sourceNameJa": "はまち", "kana": "はまち", "english": "young yellowtail"}, {"id": "07", "photo": "assets/sushi-07.jpg", "nameEn": "Greater Amberjack (Kanpachi)", "sourceNameJa": "かんぱち", "kana": "かんぱち", "english": "greater amberjack"}, {"id": "08", "photo": "assets/sushi-08.jpg", "nameEn": "Sea Bream (Tai)", "sourceNameJa": "たい", "kana": "たい", "english": "sea bream"}, {"id": "09", "photo": "assets/sushi-09.jpg", "nameEn": "Flounder (Hirame)", "sourceNameJa": "ひらめ", "kana": "ひらめ", "english": "flounder"}, {"id": "10", "photo": "assets/sushi-10.jpg", "nameEn": "Flounder Fin (Engawa)", "sourceNameJa": "えんがわ", "kana": "えんがわ", "english": "flounder fin"}, {"id": "11", "photo": "assets/sushi-11.jpg", "nameEn": "Horse Mackerel (Aji)", "sourceNameJa": "あじ", "kana": "あじ", "english": "horse mackerel"}, {"id": "12", "photo": "assets/sushi-12.jpg", "nameEn": "Mackerel (Saba)", "sourceNameJa": "さば", "kana": "さば", "english": "mackerel"}, {"id": "13", "photo": "assets/sushi-13.jpg", "nameEn": "Sardine (Iwashi)", "sourceNameJa": "いわし", "kana": "いわし", "english": "sardine"}, {"id": "14", "photo": "assets/sushi-14.jpg", "nameEn": "Pacific Saury (Sanma)", "sourceNameJa": "さんま", "kana": "さんま", "english": "pacific saury"}, {"id": "15", "photo": "assets/sushi-15.jpg", "nameEn": "Gizzard Shad (Kohada)", "sourceNameJa": "こはだ", "kana": "こはだ", "english": "gizzard shad"}, {"id": "16", "photo": "assets/sushi-16.jpg", "nameEn": "Shrimp (Ebi)", "sourceNameJa": "えび", "kana": "えび", "english": "shrimp"}, {"id": "17", "photo": "assets/sushi-17.jpg", "nameEn": "Sweet Shrimp (Amaebi)", "sourceNameJa": "あまえび", "kana": "あまえび", "english": "sweet shrimp"}, {"id": "18", "photo": "assets/sushi-18.jpg", "nameEn": "Botan Shrimp", "sourceNameJa": "ぼたんえび", "kana": "ぼたんえび", "english": "botan shrimp", "englishAliases": ["spot prawn", "botan shrimp"]}, {"id": "19", "photo": "assets/sushi-19.jpg", "nameEn": "Crab (Kani)", "sourceNameJa": "かに", "kana": "かに", "english": "crab"}, {"id": "20", "photo": "assets/sushi-20.jpg", "nameEn": "Squid (Ika)", "sourceNameJa": "いか", "kana": "いか", "english": "squid"}, {"id": "21", "photo": "assets/sushi-21.jpg", "nameEn": "Octopus (Tako)", "sourceNameJa": "たこ", "kana": "たこ", "english": "octopus"}, {"id": "22", "photo": "assets/sushi-22.jpg", "nameEn": "Scallop (Hotate)", "sourceNameJa": "ほたて", "kana": "ほたて", "english": "scallop"}, {"id": "23", "photo": "assets/sushi-23.jpg", "nameEn": "Ark Shell (Akagai)", "sourceNameJa": "あかがい", "kana": "あかがい", "english": "ark shell"}, {"id": "24", "photo": "assets/sushi-24.jpg", "nameEn": "Whelk (Tsubugai)", "sourceNameJa": "つぶがい", "kana": "つぶがい", "english": "whelk"}, {"id": "25", "photo": "assets/sushi-25.jpg", "nameEn": "Surf Clam (Hokkigai)", "sourceNameJa": "ほっきがい", "kana": "ほっきがい", "english": "surf clam"}, {"id": "26", "photo": "assets/sushi-26.jpg", "nameEn": "Abalone (Awabi)", "sourceNameJa": "あわび", "kana": "あわび", "english": "abalone"}, {"id": "27", "photo": "assets/sushi-27.jpg", "nameEn": "Sea Urchin (Uni)", "sourceNameJa": "うに", "kana": "うに", "english": "sea urchin"}, {"id": "28", "photo": "assets/sushi-28.jpg", "nameEn": "Salmon Roe (Ikura)", "sourceNameJa": "いくら", "kana": "いくら", "english": "salmon roe"}, {"id": "29", "photo": "assets/sushi-29.jpg", "nameEn": "Herring Roe (Kazunoko)", "sourceNameJa": "かずのこ", "kana": "かずのこ", "english": "herring roe"}, {"id": "30", "photo": "assets/sushi-30.jpg", "nameEn": "Sea Eel (Anago)", "sourceNameJa": "あなご", "kana": "あなご", "english": "sea eel", "englishAliases": ["conger eel"]}, {"id": "31", "photo": "assets/sushi-31.jpg", "nameEn": "Eel (Unagi)", "sourceNameJa": "うなぎ", "kana": "うなぎ", "english": "eel", "englishAliases": ["freshwater eel"]}, {"id": "32", "photo": "assets/sushi-32.jpg", "nameEn": "Egg (Tamago)", "sourceNameJa": "たまご", "kana": "たまご", "english": "egg", "englishAliases": ["egg omelet", "omelet", "omelette"]}, {"id": "33", "photo": "assets/sushi-33.jpg", "nameEn": "Cucumber Roll (Kappa Maki)", "sourceNameJa": "かっぱまき", "kana": "かっぱまき", "english": "cucumber roll"}, {"id": "34", "photo": "assets/sushi-34.jpg", "nameEn": "Tuna Roll (Tekka Maki)", "sourceNameJa": "てっかまき", "kana": "てっかまき", "english": "tuna roll"}, {"id": "35", "photo": "assets/sushi-35.jpg", "nameEn": "Thick Roll (Futomaki)", "sourceNameJa": "ふとまき", "kana": "ふとまき", "english": "thick roll"}, {"id": "36", "photo": "assets/sushi-36.jpg", "nameEn": "Tuna with Mayonnaise (Gunkan Maki)", "sourceNameJa": "ツナマヨ", "kana": "つなまよ", "english": "tuna with mayonnaise", "englishAliases": ["tuna mayo", "tuna mayonnaise"]}, {"id": "37", "photo": "assets/sushi-37.jpg", "nameEn": "Minced Tuna Roll (Negitoro Maki)", "sourceNameJa": "ねぎとろまき", "kana": "ねぎとろまき", "english": "minced tuna roll"}, {"id": "38", "photo": "assets/sushi-38.jpg", "nameEn": "Fermented Soybean Roll (Natto Maki)", "sourceNameJa": "なっとうまき", "kana": "なっとうまき", "english": "fermented soybean roll"}, {"id": "39", "photo": "assets/sushi-39.jpg", "nameEn": "Dried Gourd Roll (Kanpyo Maki)", "sourceNameJa": "かんぴょうまき", "kana": "かんぴょうまき", "english": "dried gourd roll"}, {"id": "40", "photo": "assets/sushi-40.jpg", "nameEn": "Inari Sushi", "sourceNameJa": "いなりずし", "kana": "いなりずし", "english": "inari sushi"}];
+
+const BUILTIN_PHOTOS = {};
+// Kana -> accepted roman spellings. No IME or external library is needed.
+const KANA={};
+for(const [kana,romaji] of [['あいうえお','a i u e o'],['かきくけこ','ka ki ku ke ko'],['さしすせそ','sa shi/si su se so'],['たちつてと','ta chi/ti tsu/tu te to'],['なにぬねの','na ni nu ne no'],['はひふへほ','ha hi fu/hu he ho'],['まみむめも','ma mi mu me mo'],['やゆよ','ya yu yo'],['らりるれろ','ra ri ru re ro'],['わを','wa wo/o'],['がぎぐげご','ga gi gu ge go'],['ざじずぜぞ','za ji/zi zu ze zo'],['だぢづでど','da di/ji du/zu de do'],['ばびぶべぼ','ba bi bu be bo'],['ぱぴぷぺぽ','pa pi pu pe po']]){
+ [...kana].forEach((ch,i)=>KANA[ch]=romaji.split(' ')[i].split('/'));
+}
+for(const [ch,base] of [['ぁ','a'],['ぃ','i'],['ぅ','u'],['ぇ','e'],['ぉ','o'],['ゃ','ya'],['ゅ','yu'],['ょ','yo']])KANA[ch]=['x'+base,'l'+base];
+for(const [head,prefixes] of [['き',['ky']],['ぎ',['gy']],['し',['sh','sy']],['じ',['j','jy','zy']],['ち',['ch','ty','cy']],['ぢ',['dy']],['に',['ny']],['ひ',['hy']],['び',['by']],['ぴ',['py']],['み',['my']],['り',['ry']]]){
+ for(const [small,vowel] of [['ゃ','a'],['ゅ','u'],['ょ','o']])KANA[head+small]=prefixes.map(p=>p+vowel).concat(KANA[head].flatMap(p=>KANA[small].map(s=>p+s)));
+}
+function romanVariants(kana){
+ function walk(pos,built){
+  if(pos===kana.length)return [built];
+  const ch=kana[pos];
+  if(ch==='ー'){
+   const vowel=built.match(/[aiueo](?=[^aiueo]*$)/)?.[0];
+   return [...new Set([vowel,'-'].filter(Boolean))].flatMap(s=>walk(pos+1,built+s));
+  }
+  if(ch==='ん'){
+   const next=kana[pos+1];
+   const ambiguous=next && ('あいうえおやゆよなにぬねの'.includes(next));
+   const opts=ambiguous ? ['nn',"n'"] : ['n','nn',"n'"];
+   return opts.flatMap(s=>walk(pos+1,built+s));
+  }
+  if(ch==='っ'){
+   const nextPair=kana.slice(pos+1,pos+3);
+   const combined=nextPair.length===2&&Boolean(KANA[nextPair]);
+   let next=(combined?KANA[nextPair]:KANA[kana[pos+1]])||[];
+   let step=combined ? 3:2;
+   const doubles=next.filter(s=>/^[bcdfghjklmpqrstvwxyz]/.test(s)).flatMap(s=>[s[0]+s,...(s.startsWith('ch')?['t'+s]:[])]);
+   return [...doubles.flatMap(s=>walk(pos+step,built+s)),...['xtu','ltu','xtsu','ltsu'].flatMap(s=>walk(pos+1,built+s))];
+  }
+  const pair=kana.slice(pos,pos+2),hasPair=pair.length===2&&Boolean(KANA[pair]);
+  const opts=hasPair?KANA[pair]:KANA[ch];
+  if(!opts)throw new Error('Unsupported kana: '+ch);
+  return opts.flatMap(s=>walk(pos+(hasPair?2:1),built+s));
+ }
+ return [...new Set(walk(0,''))];
+}
+const normalizeEnglish=s=>s.toLowerCase().trim().replace(/[\s-]+/g,' ');
+const katakana=s=>[...s].map(c=>c>='ぁ'&&c<='ゖ'?String.fromCharCode(c.charCodeAt(0)+96):c).join('');
+
+// EDIT HERE: reuse your site's image folder. {id} is 01..40.
+const CONFIG = { imagePattern:'../sushi-words/images/sushi-{id}.jpg', shuffle:true };
+const CARDS = DEFAULT_CARDS; // Edit DEFAULT_CARDS to change names and English aliases.
+const $=id=>document.getElementById(id);
+let mode='hiragana',deck=[],index=0,plates=0,state='idle',answers=[],composing=false,imageToken=0;
+const labels={hiragana:'Hiragana → Romaji',katakana:'Katakana → Romaji',photoJa:'Photo → Romaji',photoEn:'Photo → English'};
+const input=$('entry');
+function start(){
+ deck=[...CARDS];
+ if(CONFIG.shuffle)for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}
+ index=0;plates=0;$('plates').textContent='🍽️ × 0';showQuestion();
+}
+function fallback(card){
+ // Tiny, text-free illustration; show the name hint when a real image is absent.
+ const colors=['#d74a45','#efa26b','#e7cda0','#faf1de','#f3c348'];
+ const color=colors[(Number(card.id)-1)%colors.length];
+ return `<svg viewBox="0 0 360 240" aria-hidden="true"><ellipse cx="180" cy="194" rx="148" ry="26" fill="#e4ddd0"/><ellipse cx="180" cy="179" rx="132" ry="26" fill="#fff" stroke="#d7ccbb" stroke-width="3"/><rect x="74" y="108" width="212" height="65" rx="32" fill="#fff9ed" stroke="#e8ddca" stroke-width="2"/><path d="M67 117 Q54 54 153 61 L236 61 Q307 66 295 121 Q180 146 67 117" fill="${color}"/>${[92,128,164,200,236].map(x=>`<path d="M${x} 69 l23 50" stroke="#fff" opacity=".35" stroke-width="5"/>`).join('')}</svg>`;
+}
+function showPhoto(card){
+ const token=++imageToken;
+ $('visual').hidden=false;$('fallback').innerHTML=fallback(card);$('fallback').hidden=true;$('photo').hidden=true;
+ $('photoNote').textContent='Loading photo…';
+ const url=card.imageOverride||(CONFIG.imagePattern ? CONFIG.imagePattern.replaceAll('{id}',card.id) : BUILTIN_PHOTOS[card.id]);
+ if(!url){missingPhoto(card);return;}
+ const photo=$('photo');
+ photo.onload=()=>{if(token!==imageToken)return;photo.hidden=false;$('fallback').hidden=true;$('photoNote').textContent='';};
+ photo.onerror=()=>{
+  if(token!==imageToken)return;
+  if(photo.src!==BUILTIN_PHOTOS[card.id] && BUILTIN_PHOTOS[card.id]){photo.src=BUILTIN_PHOTOS[card.id];return;}
+  missingPhoto(card);
+ };
+ photo.src=url; // Only the current question gets a src; no 40-image preload.
+}
+function missingPhoto(card){
+ $('photo').hidden=true;$('fallback').hidden=false;
+ $('photoNote').textContent='Placeholder illustration (photo unavailable)';
+ $('hint').textContent=(mode==='photoEn'?'Japanese hint: '+card.kana:'Hint: '+card.kana+' → '+romanVariants(card.kana)[0]);
+ $('hint').hidden=false;
+}
+function showQuestion(){
+ state='typing';const card=deck[index];
+ answers=mode==='photoEn'?[card.english,...(card.englishAliases||[])].map(normalizeEnglish):romanVariants(card.kana);
+ input.value='';input.disabled=false;input.classList.remove('wrong');
+ $('answer').textContent='';$('feedback').textContent='';$('hint').hidden=true;$('hint').textContent='';
+ $('progress').textContent=`${index+1} / ${deck.length}`;
+ $('instruction').textContent=mode==='photoEn'?'Type the sushi name in English':'Type the Japanese name in romaji';
+ $('question').hidden=mode.startsWith('photo');
+ $('question').textContent=mode==='katakana'?katakana(card.kana):card.kana;
+ $('visual').hidden=true;$('photoNote').textContent='';++imageToken;$('photo').removeAttribute('src');
+ if(mode.startsWith('photo'))showPhoto(card);
+ $('next').hidden=true;$('showHint').hidden=false;$('start').textContent='Restart';input.focus();
+}
+function check(){
+ if(state!=='typing'||composing)return;
+ const raw=input.value.toLowerCase();
+ if(/[^a-z'\- ]/.test(raw)){
+  $('feedback').textContent='Use English letters (turn off your IME).';input.classList.add('wrong');return;
+ }
+ const value=mode==='photoEn'?normalizeEnglish(raw):raw;
+ if(value&&answers.includes(value)){
+  state='correct';plates++;$('plates').textContent=`🍽️ × ${plates}`;
+  input.disabled=true;input.classList.remove('wrong');
+  const card=deck[index];
+  $('answer').textContent=mode==='photoEn'?card.english.toUpperCase():(mode==='katakana'?katakana(card.kana):card.kana);
+  $('feedback').textContent='Correct! One more plate.';$('hint').hidden=true;$('showHint').hidden=true;
+  $('next').hidden=false;$('next').textContent=index===deck.length-1?'See results':'Next →';$('next').focus();
+ }else{
+  const prefix=raw===''||answers.some(a=>a.startsWith(mode==='photoEn'?raw.replace(/[\s-]+/g,' '):raw));
+  input.classList.toggle('wrong',!prefix);
+  $('feedback').textContent=prefix?'':'Try again. Use Backspace to correct your answer.';
+ }
+}
+function advance(){
+ if(state!=='correct')return;
+ index++;
+ if(index===deck.length){
+  state='finished';++imageToken;$('visual').hidden=true;$('question').hidden=false;$('question').textContent='40 PLATES!';
+  $('instruction').textContent='All 40 questions complete';$('answer').textContent='Well done!';$('feedback').textContent='Play again or try another mode.';
+  input.hidden=true;$('entryLabel').hidden=true;$('next').hidden=true;$('start').textContent='Play again';$('start').focus();
+ }else showQuestion();
+}
+$('start').onclick=()=>{input.hidden=false;$('entryLabel').hidden=false;start();};
+$('next').onclick=advance;
+$('showHint').onclick=()=>{const c=deck[index];$('hint').textContent=mode==='photoEn'?'Hint: '+c.english:'Hint: '+answers[0];$('hint').hidden=!$('hint').hidden;input.focus();};
+input.addEventListener('input',check);
+input.addEventListener('compositionstart',()=>{composing=true;});
+input.addEventListener('compositionend',()=>{composing=false;check();});
+input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();check();}});
+for(const b of document.querySelectorAll('[data-mode]'))b.onclick=()=>{
+ mode=b.dataset.mode;for(const other of document.querySelectorAll('[data-mode]'))other.setAttribute('aria-pressed',String(other===b));
+ input.hidden=false;$('entryLabel').hidden=false;start();
+};
+$('shuffle').onchange=e=>{CONFIG.shuffle=e.target.checked;};
+$('applyImages').onclick=()=>{CONFIG.imagePattern=$('imagePattern').value.trim();if(state==='typing'&&mode.startsWith('photo'))showPhoto(deck[index]);};
+start();
+
+</script></body></html>
