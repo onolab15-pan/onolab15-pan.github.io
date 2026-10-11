@@ -107,7 +107,7 @@ footer{border-top:1px solid #cdd8dd;padding-top:16px;display:flex;justify-conten
 <section class="how-to-play" aria-label="How to play">
 <h2>How to play</h2>
 <p>Look at the photo and guess the name.<br>Tap the card to see the answer.<br>Play the Japanese and English audio.</p>
-<video controls playsinline preload="none" width="480" height="854" poster="assets/sushi-cards/sushi-38.jpg" aria-label="ONOLAB sushi cards introduction"><source src="assets/sushi-cards/how-to-play.mp4?v=english-descriptions" type="video/mp4">Your browser does not support video. <a href="assets/sushi-cards/how-to-play.mp4?v=english-descriptions">Watch the introduction</a>.</video>
+<video controls playsinline preload="none" width="480" height="854" poster="assets/sushi-cards/sushi-38.jpg" aria-label="ONOLAB sushi cards introduction"><source src="assets/sushi-cards/how-to-play.mp4?v=original-male" type="video/mp4">Your browser does not support video. <a href="assets/sushi-cards/how-to-play.mp4?v=original-male">Watch the introduction</a>.</video>
 </section>
   </main>
 <script>// Names, images and Japanese/English audio can be replaced here.
@@ -582,12 +582,12 @@ window.SUSHI_CARDS = [
     stopAudio();
     const run = audioRun;
     const id = cards[index].id;
-    try { if (language === 'ja') await loadAudio(id); } catch (_) {
+    try { await loadAudio(id); } catch (_) {
       if (run === audioRun) audioStatus.textContent = 'Unable to load audio. Please try again.';
       return;
     }
     if (run !== audioRun) return;
-    const src = language === 'en' ? cards[index].audioEn : window.SUSHI_AUDIO?.[id]?.ja;
+    const src = window.SUSHI_AUDIO?.[id]?.[language];
     if (!src) return;
     if (player.getAttribute('src') !== src) player.src = src;
     player.play().then(() => { if (run === audioRun) audioStatus.textContent = language === 'ja' ? 'Playing Japanese…' : 'Playing English…'; }).catch(() => { if (run === audioRun) audioStatus.textContent = 'Unable to play audio. Tap the audio button to try again.'; });
