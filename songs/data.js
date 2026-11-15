@@ -11,7 +11,7 @@ window.ONOLAB_SONGS = [
     "title": "まちを歩けば",
     "titleEn": "A Walk Through Town",
     "cover": "covers/machi-wo-arukeba-ONOLAB-jacket.png",
-    "youtubeUrl": "https://youtu.be/fMXPm639TL8",
+    "youtubeUrl": "https://youtu.be/n9ah-HOerUk",
     "descriptionJa": "「まちを歩けば」は、朝の川辺から昼の商店街、夕暮れの土手、灯りのともる家へと、一日の景色をたどるような曲です。軽やかなリズムと柔らかなメロディーが、いつもの散歩を温かく彩ります。歌詞は日本語の拗音で構成されています。口ずさみながら、拗音の発音を練習しましょう。",
     "descriptionEn": "“A Walk Through Town” follows the changing scenery of a day—from a morning riverside and lively shops to an evening path and the warm lights of home. Its light rhythm and gentle melody bring warmth to an everyday walk. The lyrics are made up of Japanese yōon, such as kya, shu, and cho. Sing along and practice these combined sounds."
   },
